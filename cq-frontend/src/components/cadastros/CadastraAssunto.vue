@@ -40,7 +40,7 @@ export default {
       valid: true,
       descricaoRegra: [
         v => !!v || 'Descrição é obrigatório',
-        v => (v && v.length <= 60) || 'A descrição não pode ser mais do que 60 characters'
+        v => (v && v.length <= 60) || 'A descrição não pode ter mais do que 60 characters'
       ],
       disciplinaRegra: [
         v => !!v || 'Disciplina é obrigatório'

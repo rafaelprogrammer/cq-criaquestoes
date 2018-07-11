@@ -48,7 +48,7 @@ import MensagemGlobal from './components/mensagem/MensagemGlobal'
     data: () => ({
       drawer: null,
       items: [
-        { icon: 'lightbulb_outline', text: 'Notas', rota: '' },
+        { icon: 'note', text: 'Notas', rota: '' },
         { icon: 'touch_app', text: 'Revisão', rota: '/listaRevisoes' },
         { divider: true },
         { heading: 'Cadastros' },

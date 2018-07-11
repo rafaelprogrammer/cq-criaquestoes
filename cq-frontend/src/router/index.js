@@ -5,6 +5,7 @@ import ListaDisciplinas from '@/components/cadastros/ListaDisciplinas'
 import ListaAssuntos from '@/components/cadastros/ListaAssuntos'
 import ListaQuestoes from '@/components/cadastros/ListaQuestoes'
 import ListaRevisoes from '@/components/cadastros/ListaRevisoes'
+import Revisao from '@/components/cadastros/Revisao'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/listaRevisoes',
       name: 'ListaRevisoes',
       component: ListaRevisoes
+    },
+    {
+      path: '/revisao/:id',
+      name: 'Revisao',
+      component: Revisao
     }
   ]
 })

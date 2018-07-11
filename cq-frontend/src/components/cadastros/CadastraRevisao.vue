@@ -3,13 +3,15 @@
    <v-dialog v-model="modal" transition="dialog-bottom-transition">
     <v-flex xs12>
       <v-card class="elevation-10">
-        <v-toolbar  color="amber">
+        <v-toolbar>
           <v-toolbar-title>Criar Revisão</v-toolbar-title>
         </v-toolbar>
         <v-flex xs12 sm6 offset-sm3>
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-select :items="disciplinas" @change="changedValue" v-model="filtroRevisao.idDisciplina" :rules="disciplinaRegra" label="Disciplina" required></v-select>
             <v-select :items="assuntos" v-model="filtroRevisao.idAssunto" label="Assunto"></v-select>
+            <v-text-field v-model="filtroRevisao.titulo" :rules="tituloRegra" :counter="60"
+              label="Título" required></v-text-field>
             <v-btn :disabled="!valid" @click="criar()">
               <v-icon>save</v-icon>
               {{labelBtn}}
@@ -40,6 +42,10 @@ export default {
       valid: true,
       disciplinaRegra: [
         v => !!v || 'Disciplina é obrigatório'
+      ],
+      tituloRegra: [
+        v => !!v || 'Título é obrigatório',
+        v => (v && v.length <= 60) || 'O título não pode ter mais do que 60 characters'
       ]
     }
   },

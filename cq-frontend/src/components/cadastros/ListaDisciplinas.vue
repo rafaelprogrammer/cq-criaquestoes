@@ -2,12 +2,14 @@
   <div class="listaDisciplinas">
   <cadastra-disciplina ref="cadastraDisciplina" @listarDisciplinas="listar()" />
   <v-flex xs12>
-      <v-card class="elevation-10">
+       <v-card class="mb-2" color="amber lighten-3">
         <v-card-title primary-title>
           <div>
-              <h3 class="headline mb-0">Disciplinas</h3>
+              <h2 class="headline mb-0">Disciplinas</h2>
           </div>
         </v-card-title>
+      </v-card>
+      <v-card class="elevation-10">
         <v-btn @click="cadastrar()">
             <v-icon>add</v-icon>
             Adicionar
@@ -16,10 +18,10 @@
           <template slot="items" slot-scope="props">
             <td>{{ props.item.nome }}</td>
             <td>
-              <v-icon small @click="editar(props.item)">
+              <v-icon small @click="editar(props.item)" title="editar">
                 edit
               </v-icon>
-              <v-icon small @click="remover(props.index, props.item)">
+              <v-icon small @click="remover(props.index, props.item)" title="remover">
                 delete
               </v-icon>
             </td>

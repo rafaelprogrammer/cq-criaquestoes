@@ -37,7 +37,7 @@ export default {
       valid: true,
       nomeRegra: [
         v => !!v || 'Nome é obrigatório',
-        v => (v && v.length <= 60) || 'O nome não pode ser mais do que 60 characters'
+        v => (v && v.length <= 60) || 'O nome não pode ter mais do que 60 characters'
       ]
     }
   },

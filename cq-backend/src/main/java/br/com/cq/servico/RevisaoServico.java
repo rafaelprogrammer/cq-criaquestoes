@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -40,6 +39,7 @@ public class RevisaoServico implements IRevisaoServico {
 			questoes = questaoRepositorio.findByAssuntoId(filtro.getIdAssunto());
 		}
 		revisaoRepositorio.save(revisao
+				.titulo(filtro.getTitulo())
 				.questoes(questoes)
 				.dataCriacao(DateTime.now())
 				.totalQuestoes(questoes.size())
@@ -49,6 +49,19 @@ public class RevisaoServico implements IRevisaoServico {
 	@Override
 	public void atualizar(RevisaoDTO revisaoDTO) {
 		Revisao revisao = modelMapper.map(revisaoDTO, Revisao.class);
+		if(revisao.getQuestoes().size() == revisao.getRespostas().size()) {
+			revisao.setConcluido(true);
+		}
+		revisao.setTotalAcertos(0);
+		revisao.setTotalErros(0);
+		revisao.getRespostas().stream().forEach(r -> {
+			if(r.getOpcao().isCorreta()) {
+				revisao.setTotalAcertos(revisao.getTotalAcertos() + 1);
+			} else {
+				revisao.setTotalErros(revisao.getTotalErros() + 1);
+			}
+		});
+		revisao.setPorcentagemAcertos(Math.round((revisao.getTotalAcertos() * 100) / revisao.getTotalQuestoes()));
 		revisaoRepositorio.save(revisao);
 	}
 

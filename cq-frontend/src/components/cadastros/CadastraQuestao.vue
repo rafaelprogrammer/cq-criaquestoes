@@ -58,7 +58,7 @@ export default {
       valid: true,
       enunciadoRegra: [
         v => !!v || 'Enunciado é obrigatório',
-        v => (v && v.length <= 500) || 'O enunciado não pode ser mais do que 60 characters'
+        v => (v && v.length <= 500) || 'O enunciado não pode ter mais do que 60 characters'
       ],
       assuntoRegra: [
         v => !!v || 'Assunto é obrigatório'
@@ -68,11 +68,11 @@ export default {
       ],
       obsRegra: [
         v => !!v || 'Observação é obrigatória',
-        v => (v && v.length <= 1000) || 'Observação não pode ser mais do que 1000 characters'
+        v => (v && v.length <= 1000) || 'Observação não pode ter mais do que 1000 characters'
       ],
       opcaoRegra: [
         v => !!v || 'Opção é obrigatória',
-        v => (v && v.length <= 500) || 'Opção não pode ser mais do que 500 characters'
+        v => (v && v.length <= 500) || 'Opção não pode ter mais do que 500 characters'
       ]
     }
   },

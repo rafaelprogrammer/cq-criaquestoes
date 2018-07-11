@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
@@ -13,14 +14,17 @@ import lombok.Data;
 public class RevisaoDTO {
 	
 	private String id;
+	private String titulo;
 	private List<QuestaoDTO> questoes;
-	private Integer totalQuestoes;
-	private Integer totalAcertos;
-	private Integer totalErros;
-	private Integer porcentagemAcertos;
-	private Integer passo;
+	private List<RespostaDTO> respostas;
+	private int totalQuestoes;
+	private int totalAcertos;
+	private int totalErros;
+	private int porcentagemAcertos;
+	private int passo;
 	private boolean concluido;
 	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonDeserialize(using= DateTimeDeserializer.class)
 	@JsonSerialize(using=DateTimeSerializer.class)
 	private DateTime dataCriacao;
 
