@@ -1,6 +1,5 @@
 package br.com.cq.dominio;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
