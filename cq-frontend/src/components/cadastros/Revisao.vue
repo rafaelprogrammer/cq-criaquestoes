@@ -28,7 +28,7 @@
             <v-card v-if="opcaoResposta" class="mb-2" color="grey lighten-4">
                Obs: {{questao.observacao}}
             </v-card>
-            <v-btn color="primary" @click="nextStep(indice + 1)" v-if="indice !== revisao.questoes.length - 1">
+            <v-btn color="primary" @click="proximo(indice + 1)" v-if="indice !== revisao.questoes.length - 1">
               Continue
             </v-btn>
             <v-btn color="danger" @click="voltar(indice + 1)" v-if="indice !== 0">Voltar</v-btn>
@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-      nextStep (n) {
+      proximo (n) {
         this.passo = n + 1
       },
       voltar (n) {
