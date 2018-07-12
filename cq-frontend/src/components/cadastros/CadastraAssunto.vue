@@ -10,7 +10,7 @@
           </div>
         </v-card-title>
         <v-flex xs12 sm6 offset-sm3>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form class="mx-2" ref="form" v-model="valid" lazy-validation>
             <v-text-field v-model="assunto.descricao" :rules="descricaoRegra" :counter="60"
               label="Descrição" required></v-text-field>
             <v-select :items="disciplinas" v-model="assunto.disciplina.id" :rules="disciplinaRegra" label="Disciplina" required></v-select>

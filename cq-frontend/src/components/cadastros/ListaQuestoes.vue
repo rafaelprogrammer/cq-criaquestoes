@@ -20,13 +20,17 @@
             <td>{{props.item.assunto.disciplina ? props.item.assunto.disciplina.nome : ''}}</td>
             <td>{{props.item.assunto ? props.item.assunto.descricao : ''}}</td>
             <td>{{ props.item.tipoQuestao }}</td>
-            <td width="10%">
-              <v-icon small @click="editar(props.item)" title="editar">
-                edit
-              </v-icon>
-              <v-icon small @click="remover(props.index, props.item)" title="remover">
-                delete
-              </v-icon>
+            <td width="20%">
+              <v-btn icon small @click="editar(props.item)" title="editar">
+                <v-icon medium>
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn icon small class="hidden-xs-only hidden-md-only hidden-sm-only" @click="remover(props.index, props.item)" title="remover">
+                  <v-icon medium >
+                    delete
+                  </v-icon>
+              </v-btn>
             </td>
           </template>
       </v-data-table>
@@ -65,13 +69,14 @@ export default {
       this.$refs.cadastraQuestao.modal = true
     },
     remover (indice, questao) {
-      QuestaoServico.remover(questao).then((data) => {
+      confirm('Deseja realmente excluir esta questão?') && QuestaoServico.remover(questao).then((data) => {
         this.listar()
       })
     },
     listar () {
       QuestaoServico.listarTodos().then((data) => {
         this.questoes = data
+        console.log(this.questoes)
       })
     }
   },

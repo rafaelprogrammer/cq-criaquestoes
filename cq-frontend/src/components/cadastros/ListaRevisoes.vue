@@ -23,13 +23,17 @@
             <td :class="atualizarClassPorcentagem(props.item)">{{ props.item.totalErros }}</td>
             <td :class="atualizarClassPorcentagem(props.item)" :color="props.item.porcentagemAcertos < 70 ? 'red' : 'green'">{{ props.item.porcentagemAcertos + '%' }}</td>
              <td :class="atualizarClassPorcentagem(props.item)">{{ props.item.concluido }}</td>
-            <td width="10%">
-             <v-icon small @click="iniciar(props.item)" title="Iniciar revisão">
-                play_arrow
-              </v-icon>
-              <v-icon small @click="remover(props.index, props.item)" title="remover">
-                delete
-              </v-icon>
+            <td :class="atualizarClassPorcentagem(props.item)">
+              <v-btn icon small @click="iniciar(props.item)" title="Iniciar revisão">
+                <v-icon medium>
+                  play_arrow
+                </v-icon>
+              </v-btn>
+                <v-btn icon small class="hidden-xs-only hidden-md-only hidden-sm-only" @click="remover(props.index, props.item)" title="remover">
+                  <v-icon medium >
+                    delete
+                  </v-icon>
+              </v-btn>
             </td>
           </template>
       </v-data-table>
@@ -56,7 +60,7 @@ export default {
           { text: 'Erros', value: 'totalErros' },
           { text: '% Acertos', value: 'porcentagemAcertos' },
           { text: 'Concluído', value: 'concluido' },
-          { text: '', value: '' }
+          { text: '', value: 'iniciar' }
         ],
         revisoes: []
     }
@@ -69,7 +73,7 @@ export default {
       this.$router.push('/revisao/' + revisao.id)
     },
     remover (indice, revisao) {
-      RevisaoServico.remover(revisao).then((data) => {
+      confirm('Deseja realmente excluir esta revisão?') && RevisaoServico.remover(revisao).then((data) => {
         this.listar()
       })
     },

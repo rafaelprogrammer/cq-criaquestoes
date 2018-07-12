@@ -7,7 +7,7 @@
           <v-toolbar-title>Criar Revisão</v-toolbar-title>
         </v-toolbar>
         <v-flex xs12 sm6 offset-sm3>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form class="mx-2" ref="form" v-model="valid" lazy-validation>
             <v-select :items="disciplinas" @change="changedValue" v-model="filtroRevisao.idDisciplina" :rules="disciplinaRegra" label="Disciplina" required></v-select>
             <v-select :items="assuntos" v-model="filtroRevisao.idAssunto" label="Assunto"></v-select>
             <v-text-field v-model="filtroRevisao.titulo" :rules="tituloRegra" :counter="60"

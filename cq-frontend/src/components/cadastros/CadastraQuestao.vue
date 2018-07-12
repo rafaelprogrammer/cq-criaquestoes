@@ -11,7 +11,7 @@
           <v-toolbar-title>Cadastrar Questão</v-toolbar-title>
         </v-toolbar>
         <v-flex xs12 sm6 offset-sm3>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form class="mx-2" ref="form" v-model="valid" lazy-validation>
             <v-select :items="disciplinas" @change="changedValue" v-model="questao.assunto.disciplina.id" :rules="disciplinaRegra" label="Disciplina" required></v-select>
             <v-select :items="assuntos" v-model="questao.assunto.id" :rules="assuntoRegra" label="Assunto" required></v-select>
             <v-textarea label="Enunciado" required v-model="questao.enunciado" :rules="enunciadoRegra" :counter="500"></v-textarea>

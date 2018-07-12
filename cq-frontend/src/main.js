@@ -8,11 +8,38 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8080'
+if (process.env.NODE_ENV === 'production') {
+  axios.defaults.baseURL = 'https://cq-criaquestoes.herokuapp.com'
+} else {
+  axios.defaults.baseURL = 'http://localhost:8080'
+}
+
+axios.defaults.headers.common['SELVA'] = 'SELVAAAA'
 
 Vue.use(Vuetify)
 
 Vue.config.productionTip = false
+
+axios.interceptors.request.use(function (config) {
+  if (!localStorage.getItem('x-auth-token')) {
+    router.push({name: 'Login'})
+  }
+  config.headers['x-auth-token'] = localStorage.getItem('x-auth-token')
+  config.headers['xsrfHeaderName'] = ''
+  console.log(config)
+  return config
+}, function (error) {
+  return Promise.reject(error)
+})
+
+router.beforeEach(function (route, redirect, next) {
+  console.log(route)
+  if (!localStorage.getItem('x-auth-token') && route.name !== 'Login') {
+    router.push({name: 'Login'})
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

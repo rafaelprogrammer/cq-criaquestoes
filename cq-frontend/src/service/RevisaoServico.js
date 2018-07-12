@@ -15,7 +15,6 @@ export default {
     atualizar (revisao) {
             return axios.put('/revisao', revisao)
             .then(function (response) {
-                MensagemUtil.sucesso('Revisão atualizada')
                 return response.data
             })
             .catch(function (error) {

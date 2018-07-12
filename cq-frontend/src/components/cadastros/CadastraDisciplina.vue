@@ -10,7 +10,7 @@
           </div>
         </v-card-title>
         <v-flex xs12 sm6 offset-sm3>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form class="mx-2" ref="form" v-model="valid" lazy-validation>
             <v-text-field v-model="disciplina.nome" :rules="nomeRegra" :counter="60"
               label="Name" required></v-text-field>
             <v-btn :disabled="!valid" @click="cadastrar()">

@@ -19,12 +19,16 @@
             <td>{{ props.item.descricao }}</td>
             <td>{{props.item.disciplina ? props.item.disciplina.nome : ''}}</td>
             <td>
-              <v-icon small @click="editar(props.item)" title="editar">
-                edit
-              </v-icon>
-              <v-icon small @click="remover(props.index, props.item)" title="remover">
-                delete
-              </v-icon>
+              <v-btn icon small @click="editar(props.item)" title="editar">
+                <v-icon medium>
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn icon small class="hidden-xs-only hidden-md-only hidden-sm-only" @click="remover(props.index, props.item)" title="remover">
+                  <v-icon medium >
+                    delete
+                  </v-icon>
+              </v-btn>
             </td>
           </template>
       </v-data-table>
@@ -60,7 +64,7 @@ export default {
       this.$refs.cadastraAssunto.modal = true
     },
     remover (indice, assunto) {
-      AssuntoServico.remover(assunto).then((data) => {
+      confirm('Deseja realmente excluir este assunto?') && AssuntoServico.remover(assunto).then((data) => {
         this.listar()
       })
     },
