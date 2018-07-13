@@ -55,7 +55,7 @@ import MensagemGlobal from './components/mensagem/MensagemGlobal'
         { heading: 'Cadastros' },
         { icon: 'add', text: 'Disciplinas', rota: '/listaDisciplinas' },
         { icon: 'add', text: 'Assuntos', rota: '/listaAssuntos' },
-        { icon: 'add', text: 'Questões', rota: '/listaQuestoes' },
+        { icon: 'add', text: 'Questões', rota: '/listaQuestoes' }
         // { divider: true },
         // { icon: 'settings', text: 'Configurações' },
         // { icon: 'help', text: 'Ajuda' }

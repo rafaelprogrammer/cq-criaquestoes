@@ -10,8 +10,8 @@
       </v-card>
     <v-stepper v-model="passo" vertical v-if="this.revisao">
         <template v-for="(questao, indice) in revisao.questoes">
-          <v-stepper-step :key="`${indice}-step`" :step="indice + 1" editable>
-            {{ indice + 1 }} - Questão
+          <v-stepper-step :class="revisao.respostas[indice] ? revisao.respostas[indice].opcao.correta ? 'green lighten-1' : 'red lighten-1' : ''" :key="`${indice}-step`" :step="indice + 1">
+              {{ indice + 1 }} - Questão - {{questao.disciplina.nome + ' - ' + questao.assunto.descricao}}
           </v-stepper-step>
           <v-stepper-content :step="indice + 1" :key="indice">
             <v-card class="mb-2" color="grey lighten-4">
@@ -28,7 +28,7 @@
             <v-card v-if="opcaoResposta" class="mb-2" color="grey lighten-4">
                Obs: {{questao.observacao}}
             </v-card>
-            <v-btn color="primary" @click="proximo(indice + 1)" v-if="indice !== revisao.questoes.length - 1">
+            <v-btn  :disabled="!revisao.respostas[indice]" color="primary" @click="proximo(indice + 1)" v-if="indice !== revisao.questoes.length - 1">
               Continue
             </v-btn>
             <v-btn color="danger" @click="voltar(indice + 1)" v-if="indice !== 0">Voltar</v-btn>

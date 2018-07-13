@@ -14,8 +14,6 @@ if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'http://localhost:8080'
 }
 
-axios.defaults.headers.common['SELVA'] = 'SELVAAAA'
-
 Vue.use(Vuetify)
 
 Vue.config.productionTip = false
@@ -31,7 +29,6 @@ axios.interceptors.request.use(function (config) {
 })
 
 router.beforeEach(function (route, redirect, next) {
-  console.log(route)
   if (!localStorage.getItem('x-auth-token') && route.name !== 'Login') {
     router.push({name: 'Login'})
   } else {
