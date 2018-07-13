@@ -26,7 +26,7 @@
               </v-radio-group>
             </v-card>
             <v-alert v-if="opcaoResposta" :value="true" :type="opcaoResposta.correta ? 'success' : 'error'">
-             {{opcaoResposta.correta ? 'Acertou!!' : 'Errou'}} - {{opcaoResposta.descricao}}
+             {{opcaoResposta.correta ? 'Acertou!!' : 'Errou'}} - {{retornarOpcaoCorreta (questao)}}
             </v-alert>
             <v-card v-if="opcaoResposta" class="mb-2" color="grey lighten-4">
                Obs: {{questao.observacao}}
@@ -67,6 +67,13 @@ export default {
         this.opcaoResposta = opcao
         this.revisao.respostas[indice] = new Resposta(null, questao, opcao)
         RevisaoServico.atualizar(this.revisao)
+      },
+      retornarOpcaoCorreta (questao) {
+        for (let i in questao.opcoes) {
+          if (questao.opcoes[i].correta) {
+            return questao.opcoes[i].descricao
+          }
+        }
       }
   },
   mounted: async function () {
