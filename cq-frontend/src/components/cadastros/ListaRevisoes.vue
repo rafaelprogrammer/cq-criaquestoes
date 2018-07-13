@@ -10,11 +10,18 @@
         </v-card-title>
       </v-card>
       <v-card class="elevation-10">
-        <v-btn @click="criar()">
-            <v-icon>add</v-icon>
-            Criar
-        </v-btn>
-        <v-data-table hide-actions :headers="headers" :items="revisoes" class="elevation-1">
+        <v-layout row wrap>
+          <v-flex xs8>
+            <v-btn @click="criar()">
+                <v-icon>add</v-icon>
+                Criar
+            </v-btn>
+          </v-flex>
+          <v-flex xs4>
+            <v-text-field class="pr-5" v-model="filtro" append-icon="search" label="Search" single-line hide-details></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-data-table :headers="headers" :items="revisoes" class="elevation-1" :search="filtro">
           <template slot="items" slot-scope="props">
             <td :class="atualizarClassPorcentagem(props.item)">{{ props.item.dataCriacao}}</td>
             <td :class="atualizarClassPorcentagem(props.item)">{{ props.item.titulo}}</td>
@@ -36,7 +43,7 @@
               </v-btn>
             </td>
           </template>
-      </v-data-table>
+     </v-data-table>
       </v-card>
   </v-flex>
   </div>
@@ -52,6 +59,7 @@ export default {
   },
   data () {
     return {
+        filtro: '',
         headers: [
           { text: 'Data', value: 'dataCriacao' },
           { text: 'Título', value: 'titulo' },

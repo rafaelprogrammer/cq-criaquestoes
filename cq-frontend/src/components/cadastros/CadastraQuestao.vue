@@ -11,15 +11,24 @@
           <v-toolbar-title>Cadastrar Questão</v-toolbar-title>
         </v-toolbar>
         <v-flex xs12 sm6 offset-sm3>
-          <v-form class="mx-2" ref="form" v-model="valid" lazy-validation>
-            <v-select :items="disciplinas" @change="changedValue" v-model="questao.assunto.disciplina.id" :rules="disciplinaRegra" label="Disciplina" required></v-select>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-select :items="tiposQuestoes" v-model="questao.tipoQuestao" :rules="tipoQuestaoRegra" label="Tipo Quesão" required></v-select>
+            <v-select :items="disciplinas" @change="changedValue" v-model="questao.disciplina.id" :rules="disciplinaRegra" label="Disciplina" required></v-select>
             <v-select :items="assuntos" v-model="questao.assunto.id" :rules="assuntoRegra" label="Assunto" required></v-select>
-            <v-textarea label="Enunciado" required v-model="questao.enunciado" :rules="enunciadoRegra" :counter="500"></v-textarea>
-            <v-textarea label="Opção Correta" required v-model="opcao1.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
-            <v-textarea label="Opção 2" required v-model="opcao2.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
-            <v-textarea label="Opção 3" required v-model="opcao3.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
-            <v-textarea label="Opção 4" required v-model="opcao4.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
-            <v-textarea label="Opção 5" required v-model="opcao5.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
+            <v-textarea label="Enunciado" required v-model="questao.enunciado" :rules="enunciadoRegra" :counter="4000"></v-textarea>
+            <div v-if="isCertoErrado()">
+              <v-text-field v-model="opcao1.descricao" :rules="opcaoCertoErradoRegra" :counter="6"
+                label="Opção Correta" required></v-text-field>
+              <v-text-field v-model="opcao2.descricao" :rules="opcaoCertoErradoRegra" :counter="6"
+                label="Opção 2" required></v-text-field>
+            </div>
+            <div v-if="isMultiplaEscolha()">
+              <v-textarea label="Opção Correta" required v-model="opcao1.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
+              <v-textarea label="Opção 2" required v-model="opcao2.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
+              <v-textarea label="Opção 3" required v-model="opcao3.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
+              <v-textarea label="Opção 4" required v-model="opcao4.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
+              <v-textarea label="Opção 5" required v-model="opcao5.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
+            </div>
             <v-textarea label="Observação" required v-model="questao.observacao" :rules="obsRegra" :counter="1000"></v-textarea>
             <v-btn :disabled="!valid" @click="cadastrar()">
               <v-icon>save</v-icon>
@@ -37,8 +46,8 @@
 import DisciplinaServico from '@/service/DisciplinaServico'
 import AssuntoServico from '@/service/AssuntoServico'
 import QuestaoServico from '@/service/QuestaoServico'
+import TipoQuestao from '../dominio/TipoQuestao'
 import Opcao from '../dominio/Opcao'
-// import Assunto from '../dominio/Assunto'
 import Questao from '../dominio/Questao'
 import FiltroAssunto from '../dominio/FiltroAssunto'
 export default {
@@ -48,6 +57,10 @@ export default {
       labelBtn: 'Cadastrar',
       modal: false,
       questao: new Questao(),
+      tiposQuestoes: [
+          {text: TipoQuestao.CERTO_ERRADO.label, value: TipoQuestao.CERTO_ERRADO.nome},
+          {text: TipoQuestao.MULTIPLA_ESCOLHA.label, value: TipoQuestao.MULTIPLA_ESCOLHA.nome}
+      ],
       opcao1: new Opcao('', true),
       opcao2: new Opcao('', false),
       opcao3: new Opcao('', false),
@@ -58,7 +71,7 @@ export default {
       valid: true,
       enunciadoRegra: [
         v => !!v || 'Enunciado é obrigatório',
-        v => (v && v.length <= 500) || 'O enunciado não pode ter mais do que 60 characters'
+        v => (v && v.length <= 4000) || 'O enunciado não pode ser mais do que 60 characters'
       ],
       assuntoRegra: [
         v => !!v || 'Assunto é obrigatório'
@@ -68,11 +81,18 @@ export default {
       ],
       obsRegra: [
         v => !!v || 'Observação é obrigatória',
-        v => (v && v.length <= 1000) || 'Observação não pode ter mais do que 1000 characters'
+        v => (v && v.length <= 1000) || 'Observação não pode ser mais do que 1000 characters'
       ],
       opcaoRegra: [
         v => !!v || 'Opção é obrigatória',
-        v => (v && v.length <= 500) || 'Opção não pode ter mais do que 500 characters'
+        v => (v && v.length <= 500) || 'Opção não pode ser mais do que 500 characters'
+      ],
+      opcaoCertoErradoRegra: [
+        v => !!v || 'Opção é obrigatória',
+        v => (v && v.length <= 6) || 'Opção não pode ser mais do que 6 characters'
+      ],
+      tipoQuestaoRegra: [
+        v => !!v || 'Tipo Questão é obrigatória'
       ]
     }
   },
@@ -81,14 +101,22 @@ export default {
       if (this.$refs.form.validate()) {
         this.questao.opcoes.push(this.opcao1)
         this.questao.opcoes.push(this.opcao2)
-        this.questao.opcoes.push(this.opcao3)
-        this.questao.opcoes.push(this.opcao4)
-        this.questao.opcoes.push(this.opcao5)
+        if (this.isMultiplaEscolha()) {
+          this.questao.opcoes.push(this.opcao3)
+          this.questao.opcoes.push(this.opcao4)
+          this.questao.opcoes.push(this.opcao5)
+        }
         QuestaoServico.salvar(this.questao).then((data) => {
           this.$emit('listarQuestoes')
           this.modal = false
         })
       }
+    },
+    isCertoErrado () {
+      return this.questao.tipoQuestao === TipoQuestao.CERTO_ERRADO.nome
+    },
+    isMultiplaEscolha () {
+      return this.questao.tipoQuestao === TipoQuestao.MULTIPLA_ESCOLHA.nome
     },
     async changedValue (value) {
       this.assuntos = await AssuntoServico.listarCombo(new FiltroAssunto('', value))
@@ -97,9 +125,11 @@ export default {
       this.questao = questao
       this.opcao1 = new Opcao(questao.opcoes[0].descricao, questao.opcoes[0].correta)
       this.opcao2 = new Opcao(questao.opcoes[1].descricao, questao.opcoes[1].correta)
-      this.opcao3 = new Opcao(questao.opcoes[2].descricao, questao.opcoes[2].correta)
-      this.opcao4 = new Opcao(questao.opcoes[3].descricao, questao.opcoes[3].correta)
-      this.opcao5 = new Opcao(questao.opcoes[4].descricao, questao.opcoes[4].correta)
+      if (this.isMultiplaEscolha()) {
+        this.opcao3 = new Opcao(questao.opcoes[2].descricao, questao.opcoes[2].correta)
+        this.opcao4 = new Opcao(questao.opcoes[3].descricao, questao.opcoes[3].correta)
+        this.opcao5 = new Opcao(questao.opcoes[4].descricao, questao.opcoes[4].correta)
+      }
       this.questao.opcoes = []
     }
   },

@@ -1,6 +1,6 @@
 let TipoQuestao = {
-    MULTIPLA_ESCOLHA: {nome: 'MULTIPLA_ESCOLHA'},
-    CERTO_ERRADO: {nome: 'CERTO_ERRADO'},
-    SUBJETIVA: {nome: 'SUBJETIVA'}
+    MULTIPLA_ESCOLHA: {label: 'Multipla Escolha', nome: 'multipla_escolha'},
+    CERTO_ERRADO: {label: 'Certo e Errado', nome: 'certo_errado'},
+    SUBJETIVA: {label: 'Subjetivo', nome: 'SUBJETIVA'}
 }
 export default TipoQuestao

@@ -3,6 +3,7 @@ package br.com.cq.seguranca.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,12 +26,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+    	web.ignoring().antMatchers("/**/favicon.ico","/**/static/**");
+    }
+    
+    @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
         .cors()
         .and()
         .csrf().disable()
         .authorizeRequests()
+        .antMatchers("/").permitAll()
                 .antMatchers("/cp/auth").permitAll()
                 .antMatchers("/cp/signup").permitAll()
                 .anyRequest().authenticated()

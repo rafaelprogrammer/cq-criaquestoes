@@ -48,16 +48,17 @@ import MensagemGlobal from './components/mensagem/MensagemGlobal'
     data: () => ({
       drawer: null,
       items: [
-        { icon: 'note', text: 'Notas', rota: '' },
+        { heading: 'Estudo' },
+        // { icon: 'note', text: 'Notas', rota: '' },
         { icon: 'touch_app', text: 'Revisão', rota: '/listaRevisoes' },
         { divider: true },
         { heading: 'Cadastros' },
         { icon: 'add', text: 'Disciplinas', rota: '/listaDisciplinas' },
         { icon: 'add', text: 'Assuntos', rota: '/listaAssuntos' },
         { icon: 'add', text: 'Questões', rota: '/listaQuestoes' },
-        { divider: true },
-        { icon: 'settings', text: 'Configurações' },
-        { icon: 'help', text: 'Ajuda' }
+        // { divider: true },
+        // { icon: 'settings', text: 'Configurações' },
+        // { icon: 'help', text: 'Ajuda' }
       ]
     })
   }

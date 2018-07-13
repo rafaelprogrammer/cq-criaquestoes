@@ -25,8 +25,6 @@ axios.interceptors.request.use(function (config) {
     router.push({name: 'Login'})
   }
   config.headers['x-auth-token'] = localStorage.getItem('x-auth-token')
-  config.headers['xsrfHeaderName'] = ''
-  console.log(config)
   return config
 }, function (error) {
   return Promise.reject(error)

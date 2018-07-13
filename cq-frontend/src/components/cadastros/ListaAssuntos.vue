@@ -10,11 +10,18 @@
         </v-card-title>
       </v-card>
       <v-card class="elevation-10">
-        <v-btn @click="cadastrar()">
-            <v-icon>add</v-icon>
-            Adicionar
-        </v-btn>
-        <v-data-table hide-actions :headers="headers" :items="assuntos" class="elevation-1">
+        <v-layout row wrap>
+          <v-flex xs8>
+            <v-btn @click="cadastrar()">
+                <v-icon>add</v-icon>
+                Adicionar
+            </v-btn>
+          </v-flex>
+          <v-flex xs4>
+            <v-text-field class="pr-5" v-model="filtro" append-icon="search" label="Search" single-line hide-details></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-data-table :headers="headers" :items="assuntos" class="elevation-1" :search="filtro">
           <template slot="items" slot-scope="props">
             <td>{{ props.item.descricao }}</td>
             <td>{{props.item.disciplina ? props.item.disciplina.nome : ''}}</td>
@@ -47,6 +54,7 @@ export default {
   },
   data () {
     return {
+        filtro: '',
         headers: [
           { text: 'Descrição', value: 'descricao' },
           { text: 'Disciplina', value: 'disciplina.nome' },
