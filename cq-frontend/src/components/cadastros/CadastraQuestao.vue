@@ -15,7 +15,8 @@
             <v-select :items="tiposQuestoes" v-model="questao.tipoQuestao" :rules="tipoQuestaoRegra" label="Tipo Quesão" required></v-select>
             <v-select :items="disciplinas" @change="changedValue" v-model="questao.disciplina.id" :rules="disciplinaRegra" label="Disciplina" required></v-select>
             <v-select :items="assuntos" v-model="questao.assunto.id" :rules="assuntoRegra" label="Assunto" required></v-select>
-            <v-textarea label="Enunciado" required v-model="questao.enunciado" :rules="enunciadoRegra" :counter="4000"></v-textarea>
+            <v-chip color="primary" text-color="white">Enunciado:</v-chip>
+            <vue-editor v-model="questao.enunciado"></vue-editor>
             <div v-if="isCertoErrado()">
               <v-text-field v-model="opcao1.descricao" :rules="opcaoCertoErradoRegra" :counter="6"
                 label="Opção Correta" required></v-text-field>
@@ -29,7 +30,8 @@
               <v-textarea label="Opção 4" required v-model="opcao4.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
               <v-textarea label="Opção 5" required v-model="opcao5.descricao" :rules="opcaoRegra" :counter="500"></v-textarea>
             </div>
-            <v-textarea label="Observação" required v-model="questao.observacao" :rules="obsRegra" :counter="1000"></v-textarea>
+            <v-chip color="primary" text-color="white">Obs:</v-chip>
+            <vue-editor v-model="questao.observacao"></vue-editor>
             <v-btn :disabled="!valid" @click="cadastrar()">
               <v-icon>save</v-icon>
               {{labelBtn}}
@@ -43,6 +45,7 @@
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor'
 import DisciplinaServico from '@/service/DisciplinaServico'
 import AssuntoServico from '@/service/AssuntoServico'
 import QuestaoServico from '@/service/QuestaoServico'
@@ -50,8 +53,12 @@ import TipoQuestao from '../dominio/TipoQuestao'
 import Opcao from '../dominio/Opcao'
 import Questao from '../dominio/Questao'
 import FiltroAssunto from '../dominio/FiltroAssunto'
+import MensagemUtil from '@/util/MensagemUtil'
 export default {
   name: 'CadastraQuestao',
+  components: {
+      VueEditor
+  },
   data () {
     return {
       labelBtn: 'Cadastrar',
@@ -69,19 +76,11 @@ export default {
       assuntos: [],
       disciplinas: [],
       valid: true,
-      enunciadoRegra: [
-        v => !!v || 'Enunciado é obrigatório',
-        v => (v && v.length <= 4000) || 'O enunciado não pode ser mais do que 60 characters'
-      ],
       assuntoRegra: [
         v => !!v || 'Assunto é obrigatório'
       ],
       disciplinaRegra: [
         v => !!v || 'Disciplina é obrigatório'
-      ],
-      obsRegra: [
-        v => !!v || 'Observação é obrigatória',
-        v => (v && v.length <= 1000) || 'Observação não pode ser mais do que 1000 characters'
       ],
       opcaoRegra: [
         v => !!v || 'Opção é obrigatória',
@@ -99,6 +98,10 @@ export default {
   methods: {
     cadastrar () {
       if (this.$refs.form.validate()) {
+        if (!this.questao.enunciado) {
+          MensagemUtil.erro('Enunciado é obrigatório!')
+          return
+        }
         this.questao.opcoes.push(this.opcao1)
         this.questao.opcoes.push(this.opcao2)
         if (this.isMultiplaEscolha()) {

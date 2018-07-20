@@ -29,7 +29,7 @@
              {{opcaoResposta.correta ? 'Acertou!!' : 'Errou'}} - {{retornarOpcaoCorreta (questao)}}
             </v-alert>
             <v-card v-if="opcaoResposta" class="mb-2" color="grey lighten-4">
-               Obs: {{questao.observacao}}
+               Obs:<span v-html="questao.observacao" />
             </v-card>
             <v-btn  :disabled="!revisao.respostas[indice]" color="primary" @click="proximo(indice + 1)" v-if="indice !== revisao.questoes.length - 1">
               Continue
