@@ -1,5 +1,8 @@
 <template>
   <v-app id="app">
+    <loading :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="true"></loading>
     <v-navigation-drawer
       v-model="drawer" fixed clipped class="grey lighten-4" app>
       <v-list dense class="grey lighten-4">
@@ -40,12 +43,16 @@
 
 <script>
 import MensagemGlobal from './components/mensagem/MensagemGlobal'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.min.css'
+import axios from 'axios'
   export default {
     name: 'App',
     components: {
-      MensagemGlobal
+      MensagemGlobal, Loading
     },
     data: () => ({
+      isLoading: false,
       drawer: null,
       items: [
         { heading: 'Estudo' },
@@ -60,8 +67,28 @@ import MensagemGlobal from './components/mensagem/MensagemGlobal'
         // { icon: 'settings', text: 'Configurações' },
         // { icon: 'help', text: 'Ajuda' }
       ]
-    })
-  }
+    }),
+    methods: {
+      abrirLoading () {
+        this.isLoading = true
+      }
+    },
+    mounted: function () {
+      let app = this
+      axios.interceptors.request.use(function (response) {
+          app.isLoading = true
+          return response
+        }, function (error) {
+          return Promise.reject(error)
+      })
+      axios.interceptors.response.use(function (response) {
+          app.isLoading = false
+          return response
+        }, function (error) {
+          return Promise.reject(error)
+      })
+    }
+}
 </script>
 
 <style>
