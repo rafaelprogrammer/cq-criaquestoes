@@ -23,7 +23,7 @@
         </v-layout>
         <v-data-table :headers="headers" :items="questoes" class="elevation-1" :search="filtro">
           <template slot="items" slot-scope="props">
-            <td><span v-html="props.item.enunciado.substr(0,150).replace('<p>').replace('</p>') + '...'"/></td>
+            <td><span v-html="props.item.enunciado.substr(0,150) + '...'"/></td>
             <td>{{props.item.disciplina ? props.item.disciplina.nome : ''}}</td>
             <td>{{props.item.assunto ? props.item.assunto.descricao : ''}}</td>
             <td>{{ props.item.tipoQuestao }}</td>
