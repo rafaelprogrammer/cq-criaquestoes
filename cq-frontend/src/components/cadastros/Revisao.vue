@@ -17,8 +17,8 @@
               {{ indice + 1 }} - Questão - {{questao.disciplina.nome + ' - ' + questao.assunto.descricao}}
           </v-stepper-step>
           <v-stepper-content :step="indice + 1" :key="indice">
-            <v-card class="mb-2" color="grey lighten-4">
-              {{questao.enunciado}}
+            <v-card class="mb-2">
+              <span v-html="questao.enunciado" />
               <v-radio-group v-model="opcaoResposta">
                 <v-radio v-for="(opcao, i) in questao.opcoes" :key="i" :disabled="opcaoResposta ? true : false"
                   :label="opcao.descricao"  :value="opcao"
